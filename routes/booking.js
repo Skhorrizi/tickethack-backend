@@ -37,18 +37,20 @@ router.get('/cart/:bookingId', function (req, res, next) {
 /***********  ROUTE POST - BOOKING ************/
 
 router.post('/booking', function (req, res, next) {
-  const newBooking = new Booking({
-    departure: req.body.departure,
-    arrival: req.body.arrival,
-    date: req.body.date,
-    price: req.body.price,
-    bookingId: req.body.bookingId,
-    isBooked: true
-  })
-    newBooking.save().then(newBooking => {
-      res.json({ result: true, newBooking: newBooking })
-    })
+  const dates = req.body.dates
+for(let i = 0; i < dates.length; i++) {
+  Booking.updateOne({date: dates[i]}, {isBooked: true}).then(
+    console.log('element a la date mise à jour')
+  ) 
+}
 });
+
+router.delete('/booking/:date', function (req, res, next) {
+  Booking.deleteOne({date: req.params.date})
+  .then((
+    console.log('element supprimé')
+  ))
+})
 
 
 /***********  ROUTE GET - BOOKING ************/
