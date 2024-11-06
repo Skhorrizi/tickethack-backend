@@ -1,17 +1,28 @@
 var express = require('express');
 var router = express.Router();
+const moment = require('moment')
+
 require('../connection');
 const Trip = require('../models/trips');
 
+// const today = moment().startOf('day')
+// const foo = moment(today).startOf('day').toDate()
+// console.log({ today: foo });
+
+
+
 /* GET home page. */
-router.get('/trips', function(req, res, next) {
-  console.log(Trip);
+router.post('/trips', async function(req, res, next) {
+  const { departure, arrival, date } = req.body
   
-    Trip.find().then((data) => {
-      console.log({data});
-      
-      res.json({data})
-    })  
+  if (departure && arrival && !date) {
+    const result = await Trip.find({ departure, arrival })
+    console.log({result});
+    res.json({result})
+  } else {
+    res.json({ result: false })
+  }
+    
 });
 
 
