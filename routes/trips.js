@@ -33,7 +33,7 @@ router.post('/trips', async function(req, res, next) {
     }
     
   } else {
-    res.json({ result: false, error: 'You need to enter vaues in departure, arrival and date' })
+    res.json({ result: false, error: 'You need to enter values in departure, arrival and date' })
   }
     
 });
