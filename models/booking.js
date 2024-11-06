@@ -5,7 +5,8 @@ const bookingSchema = mongoose.Schema({
     arrival: String,
     date: Date,
     price: Number,
-    bookingId: String
+    bookingId: String,
+    booked: Boolean,
 });
 
 const Booking = mongoose.model('bookings', bookingSchema);
