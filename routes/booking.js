@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/reservation', function(req, res, next) {
+router.get('/booking', function (req, res, next) {
   res.send('respond with a resource');
 });
 
