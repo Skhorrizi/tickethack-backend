@@ -61,8 +61,8 @@ router.delete('/cart/:date', function (req, res, next) {
 /***********  ROUTE GET - BOOKING ************/
 
 router.get('/booking', function (req, res, next) {
-  Booking.find({ isBooked: true }).then(() => {
-    res.json({ result: true, booking: Booking })
+  Booking.find({ isBooked: true }).then((data) => {
+    res.json({ result: true, booking: data })
   })
 })
 
