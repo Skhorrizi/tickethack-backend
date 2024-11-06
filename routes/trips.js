@@ -5,7 +5,6 @@ const moment = require('moment')
 require('../connection');
 const Trip = require('../models/trips');
 
-// const today = moment().startOf('day')
 // const foo = moment(today).startOf('day').toDate()
 // console.log({ today: foo });
 
@@ -15,12 +14,26 @@ const Trip = require('../models/trips');
 router.post('/trips', async function(req, res, next) {
   const { departure, arrival, date } = req.body
   
-  if (departure && arrival && !date) {
-    const result = await Trip.find({ departure, arrival })
-    console.log({result});
-    res.json({result})
+  const formatedDatestart = moment(date).startOf('day').toDate()
+  const formatedDateend = moment(date).endOf('day').toDate()
+  console.log(formatedDatestart, formatedDateend);
+
+  if (departure && arrival && date) {
+    const tripsFound = await Trip.find({
+      departure, arrival, date: {
+        $gte: formatedDatestart,
+        $lte: formatedDateend
+      }
+    })
+    
+    if (tripsFound) {
+      res.json({result: true, trips: tripsFound})
+    } else {
+      res.json({ result: false, error: 'No trips were found' })
+    }
+    
   } else {
-    res.json({ result: false })
+    res.json({ result: false, error: 'You need to enter vaues in departure, arrival and date' })
   }
     
 });
