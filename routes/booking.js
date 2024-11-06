@@ -6,11 +6,13 @@ const Booking = require('../models/booking');
 /***********  ROUTE POST - CART ************/
 
 router.post('/cart', function (req, res, next) {
+  const date = new Date(req.body.date)
+
   const newCart = new Booking({
     departure: req.body.departure,
     arrival: req.body.arrival,
-    date: req.body.date,
-    price: req.body.price,
+    date,
+    price: Number(req.body.price),
     bookingId: req.body.bookingId,
     isBooked: false
   })
@@ -25,8 +27,9 @@ router.get('/cart/:bookingId', function (req, res, next) {
   Booking.find({
     bookingId: req.params.bookingId,
     isBooked: false
+  }).then((data) => {
+    res.json({ result: true, carts: data })
   })
-  res.json({ result: true, Booking: Booking })
 });
 
 
