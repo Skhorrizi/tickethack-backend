@@ -38,29 +38,32 @@ router.get('/cart/:bookingId', function (req, res, next) {
 
 router.post('/booking', function (req, res, next) {
   const dates = req.body.dates
-for(let i = 0; i < dates.length; i++) {
-  Booking.updateOne({date: dates[i]}, {isBooked: true}).then(
-    console.log('element a la date mise à jour')
-  ) 
-}
+  for (let i = 0; i < dates.length; i++) {
+    Booking.updateOne({ date: dates[i] }, { isBooked: true }).then(
+      console.log('element a la date mise à jour')
+    )
+  }
+  res.json({result: true})
 });
 
-router.delete('/booking/:date', function (req, res, next) {
-  Booking.deleteOne({date: req.params.date})
-  .then((
-    console.log('element supprimé')
-  ))
+router.delete('/cart/:date', function (req, res, next) {
+  const date = new Date(req.params.date)
+  console.log('DEBUG: ', req.params.date, date);
+
+  Booking.deleteOne({ date })
+    .then(() => {
+      console.log('element supprimé')
+      res.json({ result: true })
+    })
 })
 
 
 /***********  ROUTE GET - BOOKING ************/
 
-router.get('/booking/:bookingId', function (req, res, next) {
-  Booking.find({
-    bookingId: req.params.bookingId,
-    isBooked: true
+router.get('/booking', function (req, res, next) {
+  Booking.find({ isBooked: true }).then(() => {
+    res.json({ result: true, booking: Booking })
   })
-  res.json({ result: true, Booking: Booking })
 })
 
 module.exports = router;
